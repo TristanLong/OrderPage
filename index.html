@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+
+    .order-container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    #orderButton {
+      background-color: #f1557c;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #orderButton:hover {
+      background-color: #d74c63;
+    }
+
+    .order-status {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="order-container">
+    <h1 id="tableTitle">Đặt hàng</h1>
+    <input type="hidden" id="tableNumber">
+    <button id="orderButton">Đặt hàng</button>
+    <div class="order-status" id="orderStatus"></div>
+  </div>
+
+  <script>
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    const tableNumber = getQueryParam('table');
+    document.getElementById('tableNumber').value = tableNumber;
+    document.getElementById('tableTitle').textContent = `Đặt hàng cho bàn ${tableNumber}`;
+
+    var socket = new WebSocket('ws://172.168.98.193:8080/order');
+
+    socket.onopen = function(event) {
+      console.log("WebSocket is open now.");
+    };
+
+    socket.onmessage = function(event) {
+      console.log("Message from server: " + event.data);
+      document.getElementById('orderStatus').textContent = 'Phản hồi từ server: ' + event.data;
+    };
+
+    socket.onclose = function(event) {
+      console.log("WebSocket is closed now.");
+    };
+
+    socket.onerror = function(error) {
+      console.error("WebSocket error: " + error.message);
+      document.getElementById('orderStatus').textContent = 'Lỗi WebSocket: ' + error.message;
+    };
+
+    document.getElementById("orderButton").addEventListener("click", function() {
+      var tableNumber = document.getElementById("tableNumber").value;
+      var orderDetails = JSON.stringify({
+        item: "Coffee",
+        quantity: 1,
+        table: tableNumber
+      });
+      socket.send(orderDetails);
+      console.log("Order sent: " + orderDetails);
+      document.getElementById('orderStatus').textContent = 'Đơn hàng đã được gửi!';
+    });
+  </script>
+</body>
+</html>
