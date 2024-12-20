@@ -69,7 +69,7 @@
     document.getElementById('tableTitle').textContent = `Đặt hàng cho bàn ${tableNumber}`;
 
     // Placeholder URL để cập nhật sau khi triển khai
-    var socket = new WebSocket("ws://your-placeholder-domain-or-ip:8080/order");
+    var socket = new WebSocket(`ws://${window.location.hostname}:8080/order`);
 
     socket.onopen = function(event) {
       console.log("WebSocket is open now.");
