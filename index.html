@@ -68,7 +68,7 @@
     document.getElementById('tableNumber').value = tableNumber;
     document.getElementById('tableTitle').textContent = `Đặt hàng cho bàn ${tableNumber}`;
 
-    var socket = new WebSocket(`wss://${window.location.hostname}/order`);
+    var socket = new WebSocket("ws://your-domain-or-ip:8080/order");  // Sử dụng HTTP không an toàn
 
     socket.onopen = function(event) {
       console.log("WebSocket is open now.");
@@ -85,7 +85,7 @@
 
     socket.onerror = function(error) {
       console.error("WebSocket error: " + error.message);
-      document.getElementById('orderStatus').textContent = 'Lỗi WebSocket: ' + error.message;
+      document.getElementById('orderStatus').textContent = 'Lỗi WebSocket: ' + error.message);
     };
 
     document.getElementById("orderButton").addEventListener("click", function() {
