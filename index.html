@@ -68,8 +68,7 @@
     document.getElementById('tableNumber').value = tableNumber;
     document.getElementById('tableTitle').textContent = `Đặt hàng cho bàn ${tableNumber}`;
 
-    // Placeholder URL để cập nhật sau khi triển khai
-    var socket = new WebSocket(`ws://${window.location.hostname}:8080/order`);
+    var socket = new WebSocket(`ws://localhost:8080/order`);  // Sử dụng địa chỉ IP cục bộ
 
     socket.onopen = function(event) {
       console.log("WebSocket is open now.");
