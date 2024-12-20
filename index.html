@@ -68,7 +68,8 @@
     document.getElementById('tableNumber').value = tableNumber;
     document.getElementById('tableTitle').textContent = `Đặt hàng cho bàn ${tableNumber}`;
 
-    var socket = new WebSocket("ws://your-domain-or-ip:8080/order");  // Sử dụng HTTP không an toàn
+    // Placeholder URL để cập nhật sau khi triển khai
+    var socket = new WebSocket("ws://your-placeholder-domain-or-ip:8080/order");
 
     socket.onopen = function(event) {
       console.log("WebSocket is open now.");
@@ -85,7 +86,7 @@
 
     socket.onerror = function(error) {
       console.error("WebSocket error: " + error.message);
-      document.getElementById('orderStatus').textContent = 'Lỗi WebSocket: ' + error.message);
+      document.getElementById('orderStatus').textContent = 'Lỗi WebSocket: ' + error.message;
     };
 
     document.getElementById("orderButton").addEventListener("click", function() {
