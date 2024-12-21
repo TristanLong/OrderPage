@@ -68,7 +68,7 @@
     document.getElementById('tableNumber').value = tableNumber;
     document.getElementById('tableTitle').textContent = `Đặt hàng cho bàn ${tableNumber}`;
 
-    var socket = new WebSocket(`ws://order-page-chi.vercel.app/order`);  
+    var socket = new WebSocket(`ws://localhost:8080/order`);  // Sử dụng địa chỉ IP cục bộ
 
     socket.onopen = function(event) {
       console.log("WebSocket is open now.");
